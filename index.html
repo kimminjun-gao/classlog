@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>클래스로그 · 앱 설치</title>
+<meta name="description" content="진도와 학생 수업태도를 쉽고 간단하게 기록하는 선생님용 앱">
+<meta name="theme-color" content="#0b0d1a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="클래스로그">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+  /* ▼▼▼ 여기에 Apps Script 웹 앱 URL(…/exec)을 붙여넣으세요 ▼▼▼ */
+  const APP_URL = 'https://script.google.com/macros/s/AKfycbyYOAN1Q--Go2LhJEgHn2HidqT_2AvtqUxcNLo-IAoUWVnTvEXzaNJJB35OEWGcLXtO/exec';
+  /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+</script>
+<style>
+:root{--teal:#2a9d8f;--teal2:#56bca1;--ink:#0b0d1a;--sub:#b8bede}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:'Noto Sans KR',system-ui,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;
+  background:radial-gradient(ellipse 80% 60% at 20% 0%,#1d3a45 0%,rgba(29,58,69,0) 60%),
+             radial-gradient(ellipse 60% 50% at 100% 100%,#232857 0%,rgba(35,40,87,0) 60%),var(--ink);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:calc(24px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom))}
+.wrap{width:100%;max-width:440px;text-align:center}
+.icon{width:132px;height:132px;border-radius:30px;box-shadow:0 18px 50px rgba(42,157,143,.35),0 0 0 1px rgba(255,255,255,.08);
+  animation:pop .7s cubic-bezier(.2,.9,.3,1.3) both}
+h1{font-family:'Black Han Sans',sans-serif;font-weight:400;font-size:44px;margin:22px 0 6px;animation:up .6s .15s both}
+.tag{color:var(--sub);margin:0 0 28px;line-height:1.7;font-size:15px;animation:up .6s .25s both}
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:20px;text-align:left;margin-bottom:14px;animation:up .6s .35s both}
+.card h2{font-size:16px;margin:0 0 12px}
+.card ol{margin:0;padding-left:20px;line-height:1.9;color:#dfe3f5;font-size:14px}
+.card b{color:#fff}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:14px;padding:16px;font:inherit;font-weight:700;font-size:16px;text-decoration:none;cursor:pointer;transition:transform .12s,filter .12s}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:linear-gradient(180deg,var(--teal2),var(--teal));color:#fff;box-shadow:0 10px 30px rgba(42,157,143,.4)}
+.btn.ghost{background:rgba(255,255,255,.08);color:#fff;margin-top:10px}
+.btn:hover{filter:brightness(1.07)}
+.note{font-size:12.5px;color:#8d94bb;margin-top:18px;line-height:1.6}
+.warn{background:#4a2b12;border:1px solid #8a5a1d;color:#ffd9a3;border-radius:12px;padding:12px 14px;font-size:13.5px;text-align:left;margin-bottom:14px;line-height:1.6}
+.ok{background:rgba(86,188,161,.15);border:1px solid rgba(86,188,161,.4);color:#c9f2e4;border-radius:12px;padding:12px 14px;font-size:14px;margin-bottom:14px}
+.share{display:inline-block;vertical-align:-3px;width:18px;height:18px}
+.hidden{display:none!important}
+/* 실행(스플래시) 화면 */
+.splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:var(--ink)}
+.splash img{width:110px;height:110px;border-radius:26px;animation:pop .6s cubic-bezier(.2,.9,.3,1.3) both}
+.splash .bar{width:120px;height:4px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+.splash .bar i{display:block;height:100%;width:40%;background:var(--teal2);border-radius:4px;animation:load 1s ease-in-out infinite}
+.splash p{margin:0;color:var(--sub);font-size:14px}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+@keyframes up{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+@keyframes load{from{transform:translateX(-100%)}to{transform:translateX(260%)}}
+</style>
+</head>
+<body>
+
+<!-- 홈 화면 아이콘으로 실행했을 때 -->
+<div id="splash" class="splash hidden">
+  <img src="icons/icon-192.png" alt="">
+  <div class="bar"><i></i></div>
+  <p>클래스로그를 여는 중…</p>
+</div>
+
+<!-- 브라우저로 열었을 때: 설치 안내 -->
+<div id="landing" class="wrap">
+  <img class="icon" src="icons/icon-512.png" alt="클래스로그 아이콘">
+  <h1>클래스로그</h1>
+  <p class="tag">진도와 아이들의 수업태도를<br>쉽고 간단하게 기록하는 선생님 앱</p>
+
+  <div id="configWarn" class="warn hidden">⚠️ 아직 웹 앱 주소가 연결되지 않았어요.<br><b>index.html</b> 위쪽의 <b>APP_URL</b>에 Apps Script 웹 앱 URL(…/exec)을 넣어 주세요.</div>
+  <div id="installed" class="ok hidden">✅ 설치되었어요! 홈 화면(또는 바탕화면)의 <b>클래스로그</b> 아이콘으로 실행하세요.</div>
+
+  <button id="installBtn" class="btn primary hidden">📲 앱 설치하기</button>
+
+  <div id="iosGuide" class="card hidden">
+    <h2>📱 iPhone · iPad에 설치하기</h2>
+    <ol>
+      <li><b>Safari</b>로 이 페이지를 열어 주세요.</li>
+      <li>아래쪽(아이패드는 위쪽)의 <b>공유 버튼</b>
+        <svg class="share" viewBox="0 0 24 24" fill="none" stroke="#9ad0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg> 을 누르세요.</li>
+      <li>메뉴를 내려 <b>홈 화면에 추가</b>를 누르세요.</li>
+      <li>오른쪽 위 <b>추가</b>를 누르면 끝!</li>
+    </ol>
+  </div>
+
+  <div id="manualGuide" class="card hidden">
+    <h2>💻 설치 버튼이 안 보이나요?</h2>
+    <ol>
+      <li><b>Android 크롬</b>: 오른쪽 위 <b>⋮</b> → <b>앱 설치</b> 또는 <b>홈 화면에 추가</b></li>
+      <li><b>PC 크롬</b>: 주소창 오른쪽의 <b>설치 아이콘(⊕)</b> 클릭, 또는 <b>⋮</b> → <b>전송, 저장, 공유</b> → <b>페이지를 앱으로 설치</b></li>
+      <li><b>PC 엣지</b>: <b>⋯</b> → <b>앱</b> → <b>이 사이트를 앱으로 설치</b></li>
+      <li><b>삼성 인터넷</b>: <b>≡</b> → <b>현재 페이지 추가</b> → <b>홈 화면</b></li>
+    </ol>
+  </div>
+
+  <a id="openWeb" class="btn ghost" href="#" target="_self">🌐 설치하지 않고 웹에서 바로 열기</a>
+  <p class="note">설치해도 기록은 선생님의 구글 스프레드시트에 저장돼요.<br>처음 실행할 때 구글 계정 로그인과 권한 승인이 필요할 수 있어요.</p>
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const configured = /^https:\/\/script\.google\.com\/.+\/exec/.test(APP_URL) && !APP_URL.includes('여기에');
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+
+  // 1) 설치한 앱(아이콘)으로 실행 → 바로 클래스로그 열기
+  if (isStandalone && configured) {
+    $('landing').classList.add('hidden');
+    $('splash').classList.remove('hidden');
+    setTimeout(() => location.replace(APP_URL), 700);
+    return;
+  }
+
+  // 2) 브라우저로 연 경우 → 설치 안내
+  if (!configured) $('configWarn').classList.remove('hidden');
+  $('openWeb').href = configured ? APP_URL : '#';
+  if (isStandalone) $('installed').classList.remove('hidden');
+
+  if (isIOS) {
+    $('iosGuide').classList.remove('hidden');
+  } else {
+    // 설치 버튼이 나타나지 않는 브라우저를 위한 수동 안내 (조금 뒤에 표시)
+    const manualTimer = setTimeout(() => $('manualGuide').classList.remove('hidden'), 1500);
+    let deferred = null;
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferred = e;
+      clearTimeout(manualTimer);
+      $('manualGuide').classList.add('hidden');
+      $('installBtn').classList.remove('hidden');
+    });
+    $('installBtn').addEventListener('click', async () => {
+      if (!deferred) return;
+      deferred.prompt();
+      const choice = await deferred.userChoice;
+      deferred = null;
+      if (choice.outcome === 'accepted') $('installBtn').classList.add('hidden');
+    });
+    window.addEventListener('appinstalled', () => {
+      $('installBtn').classList.add('hidden');
+      $('manualGuide').classList.add('hidden');
+      $('installed').classList.remove('hidden');
+    });
+  }
+})();
+</script>
+</body>
+</html>
